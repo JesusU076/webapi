@@ -205,6 +205,19 @@ async getHighscore(req , res){
       res.send(error.message)
   }
 }
+async getGame(req , res){
+  try {
+      const pool = await poolPromise
+      console.log(req.params.id)
+      const result = await pool.request()
+      .input('id', sql.Int, req.params.id)
+      .query("SELECT D.game_id, D.game_question_time, D.game_reward_points, D.game_reward_credits  FROM Game D WHERE D.game_id= @id")
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
 }
 
 const playerController = new MainController()
