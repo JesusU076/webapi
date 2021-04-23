@@ -8,7 +8,7 @@ router.post('/api/addPlayer', controller.addPlayer);
 router.put('/api/updatePlayer/:id', controller.updatePlayer);
 router.delete('/api/deletePlayer/:id' , controller.deletePlayer);
 
-router.get('/api/getUsuarios', controller.getUsuarios);
+router.get('/api/getUsuarios/:id', controller.getUsuarios);
 router.get('/api/getUsuario/:id', controller.getUsuario);
 router.post('/api/addUsuarios', controller.addUsuarios);
 router.put('/api/updateUsuarioImg/:id', controller.updateUsuarioImg);
@@ -22,9 +22,11 @@ router.get('/api/getGame/:id', controller.getGame);
 router.put('/api/putGame', controller.putGame);
 router.get('/api/getDepartment', controller.getDepartment);
 router.post('/api/postDepartment', controller.postDepartment);
+router.post('/api/postRegistro', controller.postRegistro);
 
-router.get('/api/getMultipleQuestion', controller.getMultipleQuestion);
-router.get('/api/getSingleQuestion', controller.getSingleQuestion);
+
+router.get('/api/getMultipleQuestion/:amount/:level/:game', controller.getMultipleQuestion);
+router.get('/api/getSingleQuestion/:amount/:level/:game', controller.getSingleQuestion);
 
 
 

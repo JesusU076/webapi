@@ -91,10 +91,11 @@ class MainController {
       try {
         const pool = await poolPromise
           const result = await pool.request()
-          .query(`SELECT [User].user_first_name, [User].user_last_name, [User].user_last_name_2, 
-                  FORMAT([User].user_last_login,'dd-MM-yy') AS 'user_last_login', 
-                  Player.player_points, Player.player_level, Player.player_credits
-                  FROM Player INNER JOIN [User] ON [User].[user_id] = Player.player_id`)
+          .input('id',sql.Int, req.params.id)
+          .query(`SELECT [User].user_first_name, [User].user_last_name, [User].user_last_name_2, FORMAT([User].user_last_login,'dd-MM-yy') AS 'user_last_login', 
+          Player.player_points, Player.player_level, Player.player_credits FROM Player INNER JOIN [User] ON [User].[user_id] = Player.player_id 
+          INNER join User_has_Department on [user].[user_id] = User_has_Department.[user_id] WHERE [User_has_Department].[department_id] = 
+          (SELECT department_id FROM User_has_Department WHERE [user_id] = @id)`)
           res.json(result.recordset)
       } catch (error) {
         res.status(500)
@@ -263,9 +264,9 @@ async getSingleQuestion(req , res){
   try {
       const pool = await poolPromise
       const result = await pool.request()
-      .input('amount',sql.Int, req.body.amount)
-      .input('level',sql.Int, req.body.level)
-      .input('game',sql.Int, req.body.game)
+      .input('amount',sql.Int, req.params.amount)
+      .input('level',sql.Int, req.params.level)
+      .input('game',sql.Int, req.params.game)
       .query("EXEC singleLevelGame @amount, @level, @game")
       res.json(result.recordset)
   } catch (error) {
@@ -277,9 +278,9 @@ async getMultipleQuestion(req , res){
   try {
       const pool = await poolPromise
       const result = await pool.request()
-      .input('amount',sql.Int, req.body.amount)
-      .input('level',sql.Int, req.body.level)
-      .input('game',sql.Int, req.body.game)
+      .input('amount',sql.Int, req.params.amount)
+      .input('level',sql.Int, req.params.level)
+      .input('game',sql.Int, req.params.game)
       .query("EXEC multipleLevelGame @amount, @level, @game")
       res.json(result.recordset)
   } catch (error) {
@@ -287,6 +288,22 @@ async getMultipleQuestion(req , res){
       res.send(error.message)
   }
 }
+async postRegistro(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('correo',sql.VarChar, req.body.correo)
+      .input('departamento',sql.VarChar, req.body.departamento)
+      .input('administrador',sql.Bit, req.body.administrador)
+      .query(`INSERT INTO [Registro] VALUES (@correo, @administrador,
+        (SELECT department_id FROM Department WHERE department_name = @departamento))`)
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+
 }
 
 const playerController = new MainController()
