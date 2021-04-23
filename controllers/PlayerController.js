@@ -218,6 +218,34 @@ async getGame(req , res){
       res.send(error.message)
   }
 }
+async getDepartment(req , res){
+  try {
+      const pool = await poolPromise
+      console.log(req.params.id)
+      const result = await pool.request()
+      .query("SELECT D.department_name FROM Department D")
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+async postDepartment(req, res){
+  try {
+    if(req.body.department != null) {
+    const pool = await poolPromise
+      const result = await pool.request()
+      .input('department',sql.VarChar, req.body.department)         
+      .query("INSERT INTO Department VALUES (@department)")
+      res.json(result)
+    } else {
+      res.send('Todos los campos obligatorios!')
+    }
+  } catch (error) {
+    res.status(500)
+    res.send(error.message)
+  }
+}
 }
 
 const playerController = new MainController()
