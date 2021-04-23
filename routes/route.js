@@ -19,8 +19,13 @@ router.get('/api/getLogros/:id', controller.getLogros);
 
 router.get('/api/getHighscore/:id', controller.getHighscore);
 router.get('/api/getGame/:id', controller.getGame);
+router.put('/api/putGame', controller.putGame);
 router.get('/api/getDepartment', controller.getDepartment);
 router.post('/api/postDepartment', controller.postDepartment);
+
+router.get('/api/getMultipleQuestion', controller.getMultipleQuestion);
+router.get('/api/getSingleQuestion', controller.getSingleQuestion);
+
 
 
 module.exports = router;

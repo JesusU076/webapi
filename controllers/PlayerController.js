@@ -179,7 +179,6 @@ class MainController {
   async getLogros(req , res){
     try {
         const pool = await poolPromise
-        console.log(req.params.id)
         const result = await pool.request()
         .input('id', sql.Int, req.params.id)
         .query(`SELECT S.achievement_image_URL AS 'imagen', S.achievement_name AS 'nombre' FROM Achievement S 
@@ -195,7 +194,6 @@ class MainController {
 async getHighscore(req , res){
   try {
       const pool = await poolPromise
-      console.log(req.params.id)
       const result = await pool.request()
       .input('id', sql.Int, req.params.id)
       .query("SELECT D.game_id, D.level_id, D.stars, D.score  FROM Play_Highscore D WHERE D.player_id = @id")
@@ -208,10 +206,25 @@ async getHighscore(req , res){
 async getGame(req , res){
   try {
       const pool = await poolPromise
-      console.log(req.params.id)
       const result = await pool.request()
       .input('id', sql.Int, req.params.id)
       .query("SELECT D.game_id, D.game_question_time, D.game_reward_points, D.game_reward_credits  FROM Game D WHERE D.game_id= @id")
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+async putGame(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('game_input',sql.Int, req.body.game_input)  
+      .input('time',sql.Int, req.body.time)  
+      .input('points',sql.Int, req.body.points)  
+      .input('credits',sql.Int, req.body.credits)  
+      .query(`UPDATE Game SET game_question_time = @time, game_reward_points = @points,
+       game_reward_credits = @credits WHERE game_id = @game_input;`)
       res.json(result.recordset)
   } catch (error) {
       res.status(500)
@@ -244,6 +257,34 @@ async postDepartment(req, res){
   } catch (error) {
     res.status(500)
     res.send(error.message)
+  }
+}
+async getSingleQuestion(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('amount',sql.Int, req.body.amount)
+      .input('level',sql.Int, req.body.level)
+      .input('game',sql.Int, req.body.game)
+      .query("EXEC singleLevelGame @amount, @level, @game")
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+async getMultipleQuestion(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('amount',sql.Int, req.body.amount)
+      .input('level',sql.Int, req.body.level)
+      .input('game',sql.Int, req.body.game)
+      .query("EXEC multipleLevelGame @amount, @level, @game")
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
   }
 }
 }
