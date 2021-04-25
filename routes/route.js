@@ -8,6 +8,9 @@ router.post('/api/addPlayer', controller.addPlayer);
 router.put('/api/updatePlayer/:id', controller.updatePlayer);
 router.delete('/api/deletePlayer/:id' , controller.deletePlayer);
 
+router.get('/api/getUserByName/:id', controller.getUserByName);
+router.get('/api/getUserByRegister/:id', controller.getUserByRegister);
+router.get('/api/getUser/:id', controller.getUser);
 router.get('/api/getUsuarios/:id', controller.getUsuarios);
 router.get('/api/getUsuario/:id', controller.getUsuario);
 router.post('/api/addUsuarios', controller.addUsuarios);

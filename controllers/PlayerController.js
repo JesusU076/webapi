@@ -120,24 +120,19 @@ class MainController {
   }
     async addUsuarios(req, res){
       try {
-        if(req.body.idUsuarios != null && req.body.correo != null && req.body.password != null && req.body.nombre != null && req.body.apellidoM != null
-          && req.body.apellidoP != null && req.body.tipoUsuario != null) {
           const pool = await poolPromise
           const result = await pool.request()
-          .input('idUsuarios',sql.Int, req.body.idUsuarios)
           .input('correo',sql.VarChar, req.body.correo)
           .input('password',sql.VarChar, req.body.password)
           .input('nombre',sql.VarChar, req.body.nombre)
           .input('apellidoP',sql.VarChar, req.body.apellidoP)
           .input('apellidoM',sql.VarChar, req.body.apellidoM)
           .input('tipoUsuario',sql.Bit, req.body.tipoUsuario)
-          .query(`insert into [dbo].[Usuarios] 
-                  values(@idUsuarios, @correo, @password, @nombre, @apellidoP, @apellidoM, 
-                    GETDATE(), @tipoUsuario, 1, GETDATE(), 0, 0, 0, 0, \'img/user3\')`)
+          .input ('image',sql.VarChar,'img/user3')
+          .query(`INSERT INTO [User]
+                  values(@correo, @password, @nombre, @apellidoP, @apellidoM, 
+                    @tipoUsuario, 1, GETDATE(), GETDATE(), @image)`)
           res.json(result)
-        } else {
-          res.send('Por favor llena todos los datos!')
-        }
       } catch (error) {
         res.status(500)
         res.send(error.message)
@@ -297,6 +292,43 @@ async postRegistro(req , res){
       .input('administrador',sql.Bit, req.body.administrador)
       .query(`INSERT INTO [Registro] VALUES (@correo, @administrador,
         (SELECT department_id FROM Department WHERE department_name = @departamento))`)
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+
+async getUserByName(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('correo',sql.VarChar, req.params.id)
+      .query(`SELECT * FROM [User] WHERE user_mail = @correo`)
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+async getUserByRegister(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('correo',sql.VarChar, req.params.id)
+      .query(`SELECT * FROM [Registro] WHERE registro_mail = @correo`)
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+async getUser(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('id',sql.Int, req.params.id)
+      .query(`SELECT * FROM [User] WHERE [user_id] = @id`)
       res.json(result.recordset)
   } catch (error) {
       res.status(500)
