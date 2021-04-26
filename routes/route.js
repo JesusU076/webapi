@@ -27,7 +27,7 @@ router.get('/api/getDepartment', controller.getDepartment);
 router.post('/api/postDepartment', controller.postDepartment);
 router.post('/api/postRegistro', controller.postRegistro);
 
-
+router.get('/api/getQuestion/:id', controller.getQuestion);
 router.get('/api/getMultipleQuestion/:amount/:level/:game', controller.getMultipleQuestion);
 router.get('/api/getSingleQuestion/:amount/:level/:game', controller.getSingleQuestion);
 

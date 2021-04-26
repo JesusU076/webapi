@@ -255,6 +255,18 @@ async postDepartment(req, res){
     res.send(error.message)
   }
 }
+async getQuestion(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('id',sql.Int, req.params.id)
+      .query("SELECT question_description FROM Question WHERE game_id = @id")
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
 async getSingleQuestion(req , res){
   try {
       const pool = await poolPromise
