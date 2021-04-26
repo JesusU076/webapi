@@ -211,6 +211,17 @@ async getGame(req , res){
       res.send(error.message)
   }
 }
+async getGames(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .query("SELECT D.game_id, D.game_question_time, D.game_reward_points, D.game_reward_credits  FROM Game D")
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
 async putGame(req , res){
   try {
       const pool = await poolPromise
@@ -260,13 +271,39 @@ async getQuestion(req , res){
       const pool = await poolPromise
       const result = await pool.request()
       .input('id',sql.Int, req.params.id)
-      .query("SELECT question_description FROM Question WHERE game_id = @id")
+      .query("SELECT question_description, question_id FROM Question WHERE game_id = @id")
       res.json(result.recordset)
   } catch (error) {
       res.status(500)
       res.send(error.message)
   }
 }
+
+async getOneQuestion(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('id',sql.Int, req.params.id)
+      .query("SELECT question_description, question_id FROM Question WHERE question_id = @id")
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+async getOneAnswer(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('id',sql.Int, req.params.id)
+      .query("SELECT answer_id, answer_description, answer_correct FROM Answer WHERE question_id = @id")
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+
 async getSingleQuestion(req , res){
   try {
       const pool = await poolPromise
@@ -348,6 +385,70 @@ async getUser(req , res){
   }
 }
 
+async deleteQuestion(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('id',sql.Int, req.params.id)
+      .query(`EXEC SPQuestionDelete @id`)
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+async deleteAnswer(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('id',sql.Int, req.params.id)
+      .query(`DELETE FROM Answer where answer_id = @id`)
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+async putAnswer(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('id',sql.Int, req.params.id)  
+      .input('respuesta',sql.VarChar, req.body.respuesta)  
+      .query(`UPDATE Answer SET answer_description = @respuesta WHERE answer_id = @id;`)
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+async putQuestion(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('id',sql.Int, req.params.id)  
+      .input('respuesta',sql.VarChar, req.body.respuesta)  
+      .query(`UPDATE Question SET question_description = @respuesta WHERE question_id = @id;`)
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+async addAnswer(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('id',sql.Int, req.params.id)  
+      .input('respuesta',sql.VarChar, req.body.respuesta)  
+      .input('type',sql.VarChar, req.body.type)  
+      .query(`INSERT INTO Answer (question_id, answer_description, answer_correct) VALUES(@id, @respuesta, @type)`)
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
 }
 
 const playerController = new MainController()
