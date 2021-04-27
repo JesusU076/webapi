@@ -108,8 +108,8 @@ class MainController {
           .query(`SELECT [User].user_first_name, [User].user_last_name, [User].user_last_name_2, 
                   FORMAT([User].user_last_login,'dd-MM-yy') AS 'user_last_login', 
                   [User].user_image, Player.player_points, Player.player_credits
-                  FROM Player INNER JOIN [User] ON [User].[user_id] = Player.player_id
-                  WHERE [User].user_id = @id ;`)
+                  FROM Player INNER JOIN [User] ON [User].[user_id] = Player.user_id
+                  WHERE [User].user_id = @id;`)
           res.json(result.recordset)
       } catch (error) {
           res.status(500)
