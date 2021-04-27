@@ -8,9 +8,7 @@ class MainController {
       try {
         const pool = await poolPromise
           const result = await pool.request()
-          .query(`SELECT [User].user_first_name, [User].user_last_name, [User].user_last_name_2, Player.player_points, Player.player_level, Player.player_credits
-                  FROM Player
-                  INNER JOIN [User] ON [User].[user_id] = Player.player_id `)
+          .query(`SELECT player_points, player_credits FROM Player`)
           res.json(result.recordset)
       } catch (error) {
         res.status(500)
@@ -93,9 +91,9 @@ class MainController {
           const result = await pool.request()
           .input('id',sql.Int, req.params.id)
           .query(`SELECT [User].user_first_name, [User].user_last_name, [User].user_last_name_2, FORMAT([User].user_last_login,'dd-MM-yy') AS 'user_last_login', 
-          Player.player_points, Player.player_level, Player.player_credits FROM Player INNER JOIN [User] ON [User].[user_id] = Player.player_id 
-          INNER join User_has_Department on [user].[user_id] = User_has_Department.[user_id] WHERE [User_has_Department].[department_id] = 
-          (SELECT department_id FROM User_has_Department WHERE [user_id] = @id)`)
+            Player.player_points, Player.player_credits FROM Player INNER JOIN [User] ON [User].[user_id] = Player.[user_id] 
+            INNER join User_has_Department on [user].[user_id] = User_has_Department.[user_id] WHERE [User_has_Department].[department_id] = 
+            (SELECT department_id FROM User_has_Department WHERE [user_id] = @id)`)
           res.json(result.recordset)
       } catch (error) {
         res.status(500)
@@ -109,7 +107,7 @@ class MainController {
           .input('id', sql.Int, req.params.id)
           .query(`SELECT [User].user_first_name, [User].user_last_name, [User].user_last_name_2, 
                   FORMAT([User].user_last_login,'dd-MM-yy') AS 'user_last_login', 
-                  [User].user_image, Player.player_points, Player.player_level, Player.player_credits
+                  [User].user_image, Player.player_points, Player.player_credits
                   FROM Player INNER JOIN [User] ON [User].[user_id] = Player.player_id
                   WHERE [User].user_id = @id ;`)
           res.json(result.recordset)
@@ -204,7 +202,7 @@ async getGame(req , res){
       const pool = await poolPromise
       const result = await pool.request()
       .input('id', sql.Int, req.params.id)
-      .query("SELECT D.game_id, D.game_question_time, D.game_reward_points, D.game_reward_credits  FROM Game D WHERE D.game_id= @id")
+      .query("SELECT D.game_id, D.game_question_time, D.game_reward_credits  FROM Game D WHERE D.game_id= @id")
       res.json(result.recordset)
   } catch (error) {
       res.status(500)
@@ -215,7 +213,7 @@ async getGames(req , res){
   try {
       const pool = await poolPromise
       const result = await pool.request()
-      .query("SELECT D.game_id, D.game_question_time, D.game_reward_points, D.game_reward_credits  FROM Game D")
+      .query("SELECT D.game_id, D.game_question_time, D.game_reward_credits  FROM Game D")
       res.json(result.recordset)
   } catch (error) {
       res.status(500)
@@ -228,9 +226,8 @@ async putGame(req , res){
       const result = await pool.request()
       .input('game_input',sql.Int, req.body.game_input)  
       .input('time',sql.Int, req.body.time)  
-      .input('points',sql.Int, req.body.points)  
       .input('credits',sql.Int, req.body.credits)  
-      .query(`UPDATE Game SET game_question_time = @time, game_reward_points = @points,
+      .query(`UPDATE Game SET game_question_time = @time,
        game_reward_credits = @credits WHERE game_id = @game_input;`)
       res.json(result.recordset)
   } catch (error) {
@@ -443,6 +440,20 @@ async addAnswer(req , res){
       .input('respuesta',sql.VarChar, req.body.respuesta)  
       .input('type',sql.VarChar, req.body.type)  
       .query(`INSERT INTO Answer (question_id, answer_description, answer_correct) VALUES(@id, @respuesta, @type)`)
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+async addQuestion(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('id',sql.Int, req.params.id)  
+      .input('respuesta',sql.VarChar, req.body.respuesta)  
+      .input('nivel',sql.VarChar, req.body.nivel)  
+      .query(`INSERT INTO Question VALUES(@id, 1, @nivel, @respuesta)`)
       res.json(result.recordset)
   } catch (error) {
       res.status(500)

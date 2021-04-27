@@ -29,15 +29,17 @@ router.post('/api/postDepartment', controller.postDepartment);
 router.post('/api/postRegistro', controller.postRegistro);
 
 router.get('/api/getQuestion/:id', controller.getQuestion);
-router.get('/api/getOneQuestion/:id', controller.getOneQuestion);
 router.get('/api/getOneAnswer/:id', controller.getOneAnswer);
-router.delete('/api/deleteQuestion/:id', controller.deleteQuestion);
+router.get('/api/getOneQuestion/:id', controller.getOneQuestion);
 router.delete('/api/deleteAnswer/:id', controller.deleteAnswer);
-router.get('/api/getMultipleQuestion/:amount/:level/:game', controller.getMultipleQuestion);
-router.get('/api/getSingleQuestion/:amount/:level/:game', controller.getSingleQuestion);
+router.delete('/api/deleteQuestion/:id', controller.deleteQuestion);
 router.put('/api/putAnswer/:id', controller.putAnswer);
 router.put('/api/putQuestion/:id', controller.putQuestion);
 router.post('/api/addAnswer/:id', controller.addAnswer);
+router.post('/api/addQuestion/:id', controller.addQuestion);
+
+router.get('/api/getMultipleQuestion/:amount/:level/:game', controller.getMultipleQuestion);
+router.get('/api/getSingleQuestion/:amount/:level/:game', controller.getSingleQuestion);
 
 
 
