@@ -524,6 +524,24 @@ async getHighscoreAll(req , res){
       res.send(error.message)
   }
 }
+
+async postRegistro(req, res){
+  try {
+    const pool = await poolPromise
+      const result = await pool.request()
+      .input('id',sql.Int, req.params.id)  
+      .input('level',sql.Int, req.params.level)  
+      .input('game',sql.Int, req.params.game)  
+      .input('score',sql.Int, req.params.score)  
+      .input('stars',sql.Int, req.params.stars)  
+      .input('seconds',sql.Int, req.params.seconds)  
+      .query(`EXEC registroLOG @id, @level, @game, @score, @stars, @seconds`)
+      res.json(result.recordset)
+  } catch (error) {
+    res.status(500)
+    res.send(error.message)
+  }
+}
 }
 
 const playerController = new MainController()

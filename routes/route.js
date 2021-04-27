@@ -46,6 +46,8 @@ router.post('/api/addQuestion/:id', controller.addQuestion);
 router.get('/api/getMultipleQuestion/:amount/:level/:game', controller.getMultipleQuestion);
 router.get('/api/getSingleQuestion/:amount/:level/:game', controller.getSingleQuestion);
 
+router.post('/api/postRegistro/:id/:level/:game/:score/:stars/:seconds', controller.postRegistro)
+
 
 
 
