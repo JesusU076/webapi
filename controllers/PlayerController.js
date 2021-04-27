@@ -381,7 +381,7 @@ async getMultipleQuestion(req , res){
       res.send(error.message)
   }
 }
-async postRegistro(req , res){
+async postRegistroCorreo(req , res){
   try {
       const pool = await poolPromise
       const result = await pool.request()
@@ -525,7 +525,7 @@ async getHighscoreAll(req , res){
   }
 }
 
-async postRegistro(req, res){
+async postRegistroActividad(req, res){
   try {
     const pool = await poolPromise
       const result = await pool.request()

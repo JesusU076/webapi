@@ -31,7 +31,7 @@ router.get('/api/getGame/:id', controller.getGame);
 router.put('/api/putGame', controller.putGame);
 router.get('/api/getDepartment', controller.getDepartment);
 router.post('/api/postDepartment', controller.postDepartment);
-router.post('/api/postRegistro', controller.postRegistro);
+router.post('/api/postRegistroCorreo', controller.postRegistroCorreo);
 
 router.get('/api/getQuestion/:id', controller.getQuestion);
 router.get('/api/getOneAnswer/:id', controller.getOneAnswer);
@@ -46,7 +46,7 @@ router.post('/api/addQuestion/:id', controller.addQuestion);
 router.get('/api/getMultipleQuestion/:amount/:level/:game', controller.getMultipleQuestion);
 router.get('/api/getSingleQuestion/:amount/:level/:game', controller.getSingleQuestion);
 
-router.post('/api/postRegistro/:id/:level/:game/:score/:stars/:seconds', controller.postRegistro)
+router.post('/api/postRegistroActividad/:id/:level/:game/:score/:stars/:seconds', controller.postRegistroActividad)
 
 
 
