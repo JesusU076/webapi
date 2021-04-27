@@ -4,6 +4,7 @@ const controller = require('../controllers/playerController')
 const router = express.Router();
 router.get('/api/getPlayers', controller.getPlayers);
 router.get('/api/getPlayer/:id', controller.getPlayer);
+router.get('/api/getPlayerByUser/:id', controller.getPlayerByUser);
 router.post('/api/addPlayer', controller.addPlayer);
 router.put('/api/updatePlayer/:id', controller.updatePlayer);
 router.delete('/api/deletePlayer/:id' , controller.deletePlayer);

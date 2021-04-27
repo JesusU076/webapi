@@ -16,21 +16,33 @@ class MainController {
       }
     }
     async getPlayer(req , res){
-        try {
-            const pool = await poolPromise
-            const result = await pool.request()
-            .input('id',sql.Int, req.params.id)
-            .query(`SELECT [User].user_first_name, [User].user_last_name, [User].user_last_name_2, Player.*
-                    FROM Player
-                    INNER JOIN [User] ON [User].[user_id] = Player.player_id 
-                    WHERE player_id = @id
-                    `)
-            res.json(result.recordset)
-        } catch (error) {
-            res.status(500)
-            res.send(error.message)
-        }
+      try {
+          const pool = await poolPromise
+          const result = await pool.request()
+          .input('id',sql.Int, req.params.id)
+          .query(`SELECT [User].user_first_name, [User].user_last_name, [User].user_last_name_2, Player.*
+                  FROM Player
+                  INNER JOIN [User] ON [User].[user_id] = Player.player_id 
+                  WHERE player_id = @id
+                  `)
+          res.json(result.recordset)
+      } catch (error) {
+          res.status(500)
+          res.send(error.message)
+      }
+  }
+  async getPlayerByUser (req , res){
+    try {
+        const pool = await poolPromise
+        const result = await pool.request()
+        .input('id',sql.Int, req.params.id)
+        .query(`SELECT player_id FROM Player where [user_id] = @id`)
+        res.json(result.recordset)
+    } catch (error) {
+        res.status(500)
+        res.send(error.message)
     }
+}
     async addPlayer(req , res){
       try {
         if(req.body.id != null && req.body.namePlayer != null && req.body.avatarPlayer != null && req.body.points != null) {
