@@ -21,6 +21,7 @@ router.get('/api/getMedallas/:id', controller.getMedallas);
 router.get('/api/getLogros/:id', controller.getLogros);
 
 router.get('/api/getHighscore/:id', controller.getHighscore);
+router.get('/api/getHighscoreall', controller.getHighscoreAll);
 router.get('/api/getGames', controller.getGames);
 router.get('/api/getGame/:id', controller.getGame);
 router.put('/api/putGame', controller.putGame);

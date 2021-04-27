@@ -143,7 +143,7 @@ class MainController {
           const result = await pool.request()
           .input('idUsuarios',sql.Int , req.params.id)
           .input('foto',sql.VarChar, req.body.foto)         
-          .query("update [dbo].[Usuarios] set foto = @foto where idUsuarios = @idUsuarios")
+          .query("update [User] set user_image = @foto where [user_id] = @idUsuarios")
           res.json(result)
         } else {
           res.send('Todos los campos obligatorios!')
@@ -454,6 +454,18 @@ async addQuestion(req , res){
       .input('respuesta',sql.VarChar, req.body.respuesta)  
       .input('nivel',sql.VarChar, req.body.nivel)  
       .query(`INSERT INTO Question VALUES(@id, 1, @nivel, @respuesta)`)
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+
+async getHighscoreAll(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .query(`exec HighscoreALL`)
       res.json(result.recordset)
   } catch (error) {
       res.status(500)
