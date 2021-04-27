@@ -11,6 +11,7 @@ router.delete('/api/deletePlayer/:id' , controller.deletePlayer);
 router.get('/api/getUserByName/:id', controller.getUserByName);
 router.get('/api/getUserByRegister/:id', controller.getUserByRegister);
 router.get('/api/getUser/:id', controller.getUser);
+router.get('/api/getUsuariosRanking/:id', controller.getUsuariosRanking);
 router.get('/api/getUsuarios/:id', controller.getUsuarios);
 router.get('/api/getUsuario/:id', controller.getUsuario);
 router.post('/api/addUsuarios', controller.addUsuarios);
@@ -22,6 +23,8 @@ router.get('/api/getLogros/:id', controller.getLogros);
 
 router.get('/api/getHighscore/:id', controller.getHighscore);
 router.get('/api/getHighscoreall', controller.getHighscoreAll);
+router.put('/api/putNewHighscore/:id/:game/:level/:score/:stars', controller.putNewHighscore);
+router.get('/api/getAverageAll', controller.getAverageAll);
 router.get('/api/getGames', controller.getGames);
 router.get('/api/getGame/:id', controller.getGame);
 router.put('/api/putGame', controller.putGame);
@@ -41,6 +44,8 @@ router.post('/api/addQuestion/:id', controller.addQuestion);
 
 router.get('/api/getMultipleQuestion/:amount/:level/:game', controller.getMultipleQuestion);
 router.get('/api/getSingleQuestion/:amount/:level/:game', controller.getSingleQuestion);
+
+
 
 
 

@@ -100,6 +100,18 @@ class MainController {
         res.send(error.message)
       }
     }
+    async getUsuariosRanking(req, res){
+      try {
+        const pool = await poolPromise
+          const result = await pool.request()
+          .input('id',sql.Int, req.params.id)
+          .query(`EXEC PlayerTOP @id;`)
+          res.json(result.recordset)
+      } catch (error) {
+        res.status(500)
+        res.send(error.message)
+      }
+    }
     async getUsuario(req , res){
       try {
           const pool = await poolPromise
@@ -195,6 +207,34 @@ async getHighscore(req , res){
   } catch (error) {
       res.status(500)
       res.send(error.message)
+  }
+}
+async putNewHighscore(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('id', sql.Int, req.params.id)
+      .input('game', sql.Int, req.params.game)
+      .input('level', sql.Int, req.params.level)
+      .input('score', sql.Int, req.params.score)
+      .input('stars', sql.Int, req.params.stars)
+      .query("EXEC newPoints @id, @game, @level, @score, @stars")
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+
+async getAverageAll(req, res){
+  try {
+    const pool = await poolPromise
+      const result = await pool.request()
+      .query(`SELECT AVG(score) Promedio FROM play_highscore where score > 0 AND game_id < 5;`)
+      res.json(result.recordset)
+  } catch (error) {
+    res.status(500)
+    res.send(error.message)
   }
 }
 async getGame(req , res){
