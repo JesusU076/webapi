@@ -18,7 +18,6 @@ router.get('/api/getUsuario/:id', controller.getUsuario);
 router.post('/api/addUsuarios', controller.addUsuarios);
 router.put('/api/updateUsuarioImg/:id', controller.updateUsuarioImg);
 
-
 router.get('/api/getMedallas/:id', controller.getMedallas);
 router.get('/api/getLogros/:id', controller.getLogros);
 
@@ -48,6 +47,8 @@ router.put('/api/putAnswer/:id', controller.putAnswer);
 router.put('/api/putQuestion/:id', controller.putQuestion);
 router.post('/api/addAnswer/:id', controller.addAnswer);
 router.post('/api/addQuestion/:id', controller.addQuestion);
+
+router.put('/api/putCompra/:id/:item', controller.putCompra)
 
 router.get('/api/getMultipleQuestion/:amount/:level/:game', controller.getMultipleQuestion);
 router.get('/api/getSingleQuestion/:amount/:level/:game', controller.getSingleQuestion);

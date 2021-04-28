@@ -606,6 +606,20 @@ async postCompra(req, res){
   }
 }
 
+async putCompra(req, res){
+  try {
+    const pool = await poolPromise
+      const result = await pool.request()
+      .input('id',sql.Int, req.params.id)  
+      .input('item',sql.Int, req.params.item)  
+      .query(`EXEC restarItem @id, @item`)
+      res.json(result.recordset)
+  } catch (error) {
+    res.status(500)
+    res.send(error.message)
+  }
+}
+
 }
 
 const playerController = new MainController()
