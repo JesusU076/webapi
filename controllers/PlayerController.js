@@ -595,7 +595,7 @@ async postCompra(req, res){
     const pool = await poolPromise
       const result = await pool.request()
       .input('id',sql.Int, req.params.id)  
-      .input('credits',sql.Int, req.params.score)  
+      .input('credits',sql.Int, req.params.credits)  
       .input('amount',sql.Int, req.params.amount)  
       .input('item',sql.Int, req.params.item)  
       .query(`INSERT INTO Purchase_Data_Log VALUES (@id, @credits, @item, @amount)`)
