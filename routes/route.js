@@ -49,7 +49,7 @@ router.get('/api/getMultipleQuestion/:amount/:level/:game', controller.getMultip
 router.get('/api/getSingleQuestion/:amount/:level/:game', controller.getSingleQuestion);
 
 router.post('/api/postRegistroActividad/:id/:level/:game/:score/:credits/:stars/:min', controller.postRegistroActividad)
-
+router.post('/api/postCompra/:id/:credits/:item/:amount', controller.postCompra)
 
 
 

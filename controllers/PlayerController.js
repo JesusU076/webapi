@@ -43,7 +43,7 @@ class MainController {
         res.send(error.message)
     }
 }
-    async addPlayer(req , res){
+    async addPlayer(req , res){ //////////////////
       try {
         if(req.body.id != null && req.body.namePlayer != null && req.body.avatarPlayer != null && req.body.points != null) {
           const pool = await poolPromise
@@ -62,7 +62,7 @@ class MainController {
         res.send(error.message)
       }
     }
-    async updatePlayer(req, res){
+    async updatePlayer(req, res){///////////////
       try {
         if(req.body.id != null && req.body.namePlayer != null && req.body.avatarPlayer != null && req.body.points != null) {
         const pool = await poolPromise
@@ -564,6 +564,23 @@ async postRegistroActividad(req, res){
     res.send(error.message)
   }
 }
+
+async postCompra(req, res){
+  try {
+    const pool = await poolPromise
+      const result = await pool.request()
+      .input('id',sql.Int, req.params.id)  
+      .input('credits',sql.Int, req.params.score)  
+      .input('amount',sql.Int, req.params.amount)  
+      .input('item',sql.Int, req.params.item)  
+      .query(`INSERT INTO Purchase_Data_Log VALUES (@id, @credits, @item, @amount)`)
+      res.json(result.recordset)
+  } catch (error) {
+    res.status(500)
+    res.send(error.message)
+  }
+}
+
 }
 
 const playerController = new MainController()
