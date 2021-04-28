@@ -308,6 +308,17 @@ async getDepartment(req , res){
       res.send(error.message)
   }
 }
+async getCommunity(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .query("SELECT * FROM Community")
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
 async postDepartment(req, res){
   try {
     if(req.body.department != null) {
@@ -319,6 +330,20 @@ async postDepartment(req, res){
     } else {
       res.send('Todos los campos obligatorios!')
     }
+  } catch (error) {
+    res.status(500)
+    res.send(error.message)
+  }
+}
+async postCommunity(req, res){
+  try {
+    const pool = await poolPromise
+      const result = await pool.request()
+      .input('title',sql.VarChar, req.body.title) 
+      .input('content',sql.VarChar, req.body.content) 
+      .input('image',sql.VarChar, req.body.image)        
+      .query("INSERT INTO Community VALUES (@title, @content, @image)")
+      res.json(result)
   } catch (error) {
     res.status(500)
     res.send(error.message)

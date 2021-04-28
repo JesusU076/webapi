@@ -27,13 +27,17 @@ router.get('/api/getHighscoreall', controller.getHighscoreAll);
 router.put('/api/putNewHighscore/:id/:game/:level/:score/:stars', controller.putNewHighscore);
 router.get('/api/getAverageAll', controller.getAverageAll);
 router.get('/api/getAverageTime', controller.getAverageTime);
+
 router.get('/api/getGames', controller.getGames);
 router.get('/api/getGame/:id', controller.getGame);
 router.put('/api/putGame', controller.putGame);
+
 router.get('/api/getDepartment', controller.getDepartment);
 router.post('/api/postDepartment', controller.postDepartment);
 router.post('/api/postRegistroCorreo', controller.postRegistroCorreo);
 router.post('/api/postRegistroDpto', controller.postRegistroDpto);
+router.get('/api/getCommunity', controller.getCommunity)
+router.post('/api/postCommunity', controller.postCommunity);
 
 router.get('/api/getQuestion/:id', controller.getQuestion);
 router.get('/api/getOneAnswer/:id', controller.getOneAnswer);
