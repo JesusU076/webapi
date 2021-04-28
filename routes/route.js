@@ -26,12 +26,14 @@ router.get('/api/getHighscore/:id', controller.getHighscore);
 router.get('/api/getHighscoreall', controller.getHighscoreAll);
 router.put('/api/putNewHighscore/:id/:game/:level/:score/:stars', controller.putNewHighscore);
 router.get('/api/getAverageAll', controller.getAverageAll);
+router.get('/api/getAverageTime', controller.getAverageTime);
 router.get('/api/getGames', controller.getGames);
 router.get('/api/getGame/:id', controller.getGame);
 router.put('/api/putGame', controller.putGame);
 router.get('/api/getDepartment', controller.getDepartment);
 router.post('/api/postDepartment', controller.postDepartment);
 router.post('/api/postRegistroCorreo', controller.postRegistroCorreo);
+router.post('/api/postRegistroDpto', controller.postRegistroDpto);
 
 router.get('/api/getQuestion/:id', controller.getQuestion);
 router.get('/api/getOneAnswer/:id', controller.getOneAnswer);
@@ -46,7 +48,7 @@ router.post('/api/addQuestion/:id', controller.addQuestion);
 router.get('/api/getMultipleQuestion/:amount/:level/:game', controller.getMultipleQuestion);
 router.get('/api/getSingleQuestion/:amount/:level/:game', controller.getSingleQuestion);
 
-router.post('/api/postRegistroActividad/:id/:level/:game/:score/:stars/:seconds', controller.postRegistroActividad)
+router.post('/api/postRegistroActividad/:id/:level/:game/:score/:credits/:stars/:min', controller.postRegistroActividad)
 
 
 

@@ -181,7 +181,6 @@ class MainController {
     async getMedallas(req , res){
       try {
           const pool = await poolPromise
-          console.log(req.params.id)
           const result = await pool.request()
           .input('id', sql.Int, req.params.id)
           .query(`SELECT S.medal_image_URL AS 'imagen', S.medal_name AS 'nombre' FROM Medal S 
@@ -249,6 +248,17 @@ async getAverageAll(req, res){
     res.send(error.message)
   }
 }
+async getAverageTime(req, res){
+  try {
+    const pool = await poolPromise
+      const result = await pool.request()
+      .query(`select avg(DATEDIFF(second,session_date_start,session_date_end)) as tiempo FROM Game_Session WHERE game_id < 5;`)
+      res.json(result.recordset)
+  } catch (error) {
+    res.status(500)
+    res.send(error.message)
+  }
+}
 async getGame(req , res){
   try {
       const pool = await poolPromise
@@ -290,7 +300,6 @@ async putGame(req , res){
 async getDepartment(req , res){
   try {
       const pool = await poolPromise
-      console.log(req.params.id)
       const result = await pool.request()
       .query("SELECT D.department_name FROM Department D")
       res.json(result.recordset)
@@ -390,6 +399,18 @@ async postRegistroCorreo(req , res){
       .input('administrador',sql.Bit, req.body.administrador)
       .query(`INSERT INTO [Registro] VALUES (@correo, @administrador,
         (SELECT department_id FROM Department WHERE department_name = @departamento))`)
+      res.json(result.recordset)
+  } catch (error) {
+      res.status(500)
+      res.send(error.message)
+  }
+}
+async postRegistroDpto(req , res){
+  try {
+      const pool = await poolPromise
+      const result = await pool.request()
+      .input('departamento',sql.VarChar, req.body.departamento)
+      .query(`INSERT INTO Department Values(@departamento)`)
       res.json(result.recordset)
   } catch (error) {
       res.status(500)
@@ -532,10 +553,11 @@ async postRegistroActividad(req, res){
       .input('id',sql.Int, req.params.id)  
       .input('level',sql.Int, req.params.level)  
       .input('game',sql.Int, req.params.game)  
-      .input('score',sql.Int, req.params.score)  
+      .input('score',sql.Int, req.params.score) 
+      .input('credits',sql.Int, req.params.score)  
       .input('stars',sql.Int, req.params.stars)  
-      .input('seconds',sql.Int, req.params.seconds)  
-      .query(`EXEC registroLOG @id, @level, @game, @score, @stars, @seconds`)
+      .input('min',sql.Int, req.params.min)  
+      .query(`EXEC Actualizacion @id, @game, @level, @score, @credits, @stars, @min`)
       res.json(result.recordset)
   } catch (error) {
     res.status(500)
